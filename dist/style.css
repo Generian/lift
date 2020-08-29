@@ -1,0 +1,51 @@
+body {
+    color: red;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.mainContainer {
+    display: grid;
+    grid-template-columns: [score] 400px [game] auto;
+    width: 100%;
+    height: 100%;
+}
+
+.item {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+.item_score {
+    grid-column-start: score;
+    grid-column-end: game;
+    background-color: gray;
+    display: grid;
+    grid-template-columns: [rounds] auto [player1] auto [player2] auto [player3] auto [player4] auto;
+}
+
+.item_header {
+    grid-row-start: header;
+}
+
+.player1 {
+    grid-column-start: player1;
+}
+
+.player2 {
+    grid-column-start: player2;
+}
+
+.player3 {
+    grid-column-start: player3;
+}
+
+.player4 {
+    grid-column-start: player4;
+}
+
+.item_round_number {
+    grid-column-start: rounds;
+}
