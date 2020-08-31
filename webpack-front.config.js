@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  target: 'web',
   entry: './src/index.js',
   output: {
     filename: 'main.js',
@@ -11,15 +12,15 @@ module.exports = {
   devServer: {
     contentBase: './dist',
   },
-//   module: {
-//     rules: [
-//         {
-//         test: /\.css$/,
-//         use: [
-//             'style-loader',
-//             'css-loader',
-//         ],
-//         },
-//     ], 
-//   },
+  // module: {
+  //   rules: [
+  //       {
+  //       test: /\.css$/,
+  //       use: [
+  //           'style-loader',
+  //           'css-loader',
+  //       ],
+  //       },
+  //   ], 
+  // },
 };

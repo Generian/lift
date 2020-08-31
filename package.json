@@ -5,17 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "build-f": "webpack --config ./webpack-front.config.js",
+    "build-b": "webpack --config ./webpack-back.config.js",
+    "start": "webpack-dev-server --open --config ./webpack-front.config.js",
+    "watch": "webpack --watch --config ./webpack-back.config.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^4.2.2",
+    "nodemon": "^2.0.4",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "express": "^4.17.1",

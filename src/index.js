@@ -2,10 +2,9 @@
 import io from "socket.io-client";
 
 import { drawGame } from './draw.js';
-import { dealCards } from './game.js';
 
 // Websocket setup
-const socket = io(window.location.hostname == "localhost" ? "localhost:3000" : window.location.hostname);
+export const socket = io(window.location.hostname == "localhost" ? "localhost:3000" : window.location.hostname);
 
 // Log new socket connection
 socket.on('connect', () => {
@@ -14,5 +13,7 @@ socket.on('connect', () => {
 
 // Draw game
 socket.on('drawGame', (game) => {
-    drawGame(dealCards(game));
+    console.log('re-drawing!')
+    // console.log(game)
+    drawGame(game, socket.id);
 });

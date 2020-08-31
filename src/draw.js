@@ -1,11 +1,62 @@
 import $ from "jquery";
 
 import { getCardCount } from './helper.js';
+import { socket } from './index.js';
+
+// Remove all elements
+function EmptyFrame() {
+    $( ".mainContainer" ).empty();
+}
+
+// Draw app frame
+
+function DrawAppFrame() {
+    let t = '<div id="scoreContainer" class="item item_score"></div><div id="gameContainer" class="item item_game"></div>';
+    $( ".mainContainer" ).append(t);
+}
+
+// Draw player cards
+
+function DrawCardsContainers() {
+    let t = '<div id="myCards"></div>';
+    let u = '<div id="playedCards"></div>';
+    $(' #gameContainer ').append(t, u);
+}
+
+function DrawMyCards(game, player) {
+    for (let card of game.players[player]['cards']) {
+        let t = `<img id="${card}" src="./assets/cards/${card}.jpg">`;
+        $( "#myCards" ).append(t);
+        $( `#${card}` ).click(() => {
+            console.log($(`#${card}`).attr('id'))
+            socket.emit('clickCard', $(`#${card}`).attr('id'))
+        });
+    }
+}
+
+function DrawPlayedCards(game) {
+    for (let i = game.next_action_player; i < game.next_action_player + game.order.length; i++) {
+        let card = game.players[game.order[i % game.order.length]].played;
+        if (card.length != 0) {
+            let t = `<img src="./assets/cards/${card[0]}.jpg" style="transform: translate(${card[2]}px, ${card[3]}px) rotate(${card[1]}deg) ;">`;
+            $( "#playedCards" ).append(t);
+        };
+    };
+};
+
+// Draw score board
 
 function DrawScoreHeader(game) {
+    let css = "[rounds] auto ";
+    let c = 1;
+    for (let id in game.players) {
+        css = css + `[player${c}] auto `
+        c += 1;
+    };
+    $( "#scoreContainer" ).css("grid-template-columns", css);
     let count = 1;
     for (let id in game.players) {
-        let t = `<div class="item item_header player${count}"><span>${game.players[id].name}</span></div>`;
+        let t = `<div class="item item_header" style="grid-column-start:player${count};"><span>${game.players[id].name}</span></div>`;
         $('#scoreContainer').append(t);
         count += 1;
     }
@@ -24,15 +75,17 @@ function DrawScoreRounds(game) {
 }
 
 function DrawScoreScores(game) {
-    for (const [i, score] of game.score.entries()) {
-        let count = 1;
-        for (let id in game.players) {
-            let u = `<div class="item player${count}" style="grid-row-start:round${i+1};"><span>${score[count-1]}</span></div>`;
-            $('#scoreContainer').append(u);
-            count += 1;
-        }
-    }
-}
+    game.order.forEach((player, j) => {
+        if (game.players[player].score) {
+            game.players[player].score.forEach((score, i) => {
+                let u = `<div class="item player${j+1}" style="grid-row-start:round${i+1};"><span>${score}</span></div>`;
+                $('#scoreContainer').append(u);
+            });
+        } else {
+            console.log(`Scores missing for player: ${player, game.players[player].name}`);
+        };
+    });
+};
 
 function DrawScoreBoard(game) {
     DrawScoreHeader(game)
@@ -40,6 +93,20 @@ function DrawScoreBoard(game) {
     DrawScoreScores(game)
 }
 
-export function drawGame(game) {
-    DrawScoreBoard(game)
+// Draw full game
+
+export function drawGame(game, player) {
+    // Delete everything
+    EmptyFrame();
+
+    // Draw app rame
+    DrawAppFrame();
+
+    // Draw score board
+    DrawScoreBoard(game);
+
+    // Draw game
+    DrawCardsContainers();
+    DrawMyCards(game, player);
+    DrawPlayedCards(game);
 }

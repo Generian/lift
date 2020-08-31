@@ -1,10 +1,3 @@
-body {
-    color: red;
-    margin: 0;
-    width: 100%;
-    height: 100vh;
-}
-
 .mainContainer {
     display: grid;
     grid-template-columns: [score] 400px [game] auto;
@@ -23,29 +16,41 @@ body {
     grid-column-end: game;
     background-color: gray;
     display: grid;
-    grid-template-columns: [rounds] auto [player1] auto [player2] auto [player3] auto [player4] auto;
 }
 
 .item_header {
     grid-row-start: header;
 }
 
-.player1 {
-    grid-column-start: player1;
-}
-
-.player2 {
-    grid-column-start: player2;
-}
-
-.player3 {
-    grid-column-start: player3;
-}
-
-.player4 {
-    grid-column-start: player4;
-}
-
 .item_round_number {
     grid-column-start: rounds;
+}
+
+#gameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#myCards {
+    width: 30%;
+    height: 20vh;
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#myCards img {
+    height: 100%;
+    width: auto;
+    margin: 5px;
+}
+
+#playedCards img {
+    height: 20vh;
+    width: auto;
 }
